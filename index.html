@@ -3,143 +3,626 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MONKEY</title>
+    <title>Monkey Web App</title>
+    <!-- Подключение Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
-        .container {
-            width: 100vw;
-            height: 177.78vw;
-            max-width: 1080px;
-            max-height: 1920px;
-            margin: 0 auto;
-            background-color: #181818;
-            position: relative;
-        }
-        .header {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            align-items: center;
-        }
-        .logo {
-            width: 50px;
-            height: 50px;
-            margin-right: 10px;
-        }
-        .project-title {
-            font-size: 2.5rem;
-            font-family: Arial, sans-serif;
-            color: #ffffff;
-        }
-        .content {
-            width: 100%;
-            height: 100%;
-            padding: 20px;
+
+        body {
+            background-color: #0e0e0e;
+            color: #fff;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
+        }
+
+        /* Статичный хедер */
+        .header {
+            background-color: #1c1c1c;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .header-title h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .user-info .nickname {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .user-info .nickname span {
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .user-info .nickname .balance {
+            font-size: 16px;
+            color: #323234;
+        }
+
+        /* Основной контент */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        /* Стили для главной страницы */
+        .main-page {
+            display: block;
+        }
+
+        .intro-text {
+            margin-bottom: 16px;
+        }
+
+        .intro-text h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .intro-text p {
+            font-size: 16px;
+            color: #4c4c4c;
+        }
+
+        .section {
+            margin-bottom: 16px;
+            background-color: #1c1c1c;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #2a2a2a;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .section-title span {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .section-title-subtext {
+            font-size: 16px;
+            color: #4c4c4c;
+            margin-bottom: 10px;
+        }
+
+        .start-button {
+            background-color: #9755fd;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .tools-section h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .tools-section p {
+            font-size: 16px;
+            color: #4c4c4c;
+            margin-bottom: 16px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .tool-button {
+            background-color: #1c1c1c;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-align: center;
+            min-height: 120px;
+        }
+
+        .tool-button .icons {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            min-height: 60px; /* Зарезервировано место для будущих фото */
+        }
+
+        .tool-button .divider {
+            width: 100%;
+            height: 1px;
+            background-color: #2a2a2a;
+            margin: 10px 0; /* Добавляем отступы сверху и снизу */
+        }
+
+        .tool-button .tool-name {
+            font-size: 16px;
+            font-weight: 500;
+            padding: 5px 0;
+        }
+
+        /* Стили для страницы конвертера */
+        .converter-page {
+            display: none;
+        }
+
+        .converter-page .section-number {
+            width: 20px;
+            height: 20px;
+            background-color: #35274a;
+            color: #5c3a91;
+            border: 1px solid #5c3a91;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .button {
+            background-color: #323234;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .button.selected {
+            background-color: #35274a;
+            border-color: #5c3a91;
+        }
+
+        .button img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+        }
+
+        .button span {
+            font-size: 16px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .format-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .format-options-row {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+
+        .format-button {
+            padding: 10px;
+            background-color: #323234;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            color: #fff;
+            flex: 1;
+        }
+
+        .format-button.clear {
+            background-color: #2a2a2c;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .format-button.add-file {
+            background-color: #9755fd;
+            border: none;
+        }
+
+        .format-button.selected {
+            background-color: #35274a;
+            border-color: #5c3a91;
+        }
+
+        .convert-button {
+            background-color: #9755fd;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* Стили для страницы "ждет обновления" */
+        .update-page {
+            display: none;
+            height: 100%;
             justify-content: center;
             align-items: center;
             text-align: center;
-            font-family: Arial, sans-serif;
+            font-size: 24px;
+            color: #4c4c4c;
         }
-        h1 {
-            font-size: 2rem;
-            color: #ffffff;
-        }
-        p {
-            font-size: 1.2rem;
-            color: #666;
-        }
+
+        /* Статичный футер */
         .footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background-color: #1f1f1f;
+            background-color: #1c1c1c;
+            padding: 10px;
             display: flex;
             justify-content: space-around;
+            position: sticky;
+            bottom: 0;
+            z-index: 100;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        .footer-btn {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            padding: 0 20px;
-        }
-        .footer-button {
-            width: 40px;
-            height: 40px;
-            background-color: #ffffff;
-            border: 2px solid #ffffff;
-            border-radius: 50%;
+            color: #4c4c4c;
             cursor: pointer;
-            transition: background-color 0.3s;
         }
-        .footer-button:hover {
-            background-color: #d4d4d4; 
+
+        .footer-btn svg {
+            fill: #4c4c4c;
         }
-        .footer_button.active {
-            background-color: #494949;
+
+        .footer-btn.selected {
+            color: #5c3a91;
+        }
+
+        .footer-btn.selected svg {
+            fill: #5c3a91;
+        }
+
+        .footer-btn span {
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <img src="https://i.ibb.co/TDZdpLkx/d092776e-b9cf-472a-9373-bd4ea85d76e4.jpg" class="logo">
-            <div class="project-title">Monkey</div>
+    <!-- Хедер -->
+    <header class="header">
+        <div class="header-title">
+            <img src="https://i.ibb.co/TDZdpLkx/d092776e-b9cf-472a-9373-bd4ea85d76e4.jpg" alt="Monkey Logo">
+            <h1>Monkey</h1>
         </div>
-        <div class="content" id="content">
-            <h1>1</h1>
+        <div class="user-info">
+            <div class="nickname">
+                <span class="username">Nickname</span>
+                <span class="balance">$0</span>
+            </div>
+            <img src="user-avatar.jpg" alt="User Avatar">
         </div>
-        <div class="footer">
-            <button class="footer-button" data-page="home">1</button>
-            <button class="footer-button" data-page="page1">2</button>
-            <button class="footer-button" data-page="page2">3</button>
-            <button class="footer-button" data-page="page3">4</button>
-            <button class="footer-button" data-page="page4">5</button>
-        </div>
-    </div>
+    </header>
 
+    <!-- Основной контент -->
+    <main class="main-content">
+        <!-- Главная страница -->
+        <div class="main-page" id="main-page">
+            <div class="intro-text">
+                <h2 id="welcome-text">👋🏻 Привет, username</h2>
+                <p>Загрузи аккаунты для быстрой работы</p>
+            </div>
+
+            <section class="section">
+                <div class="section-title">
+                    <span>🪄 Магия от Monkey</span>
+                </div>
+                <div class="section-title-subtext">Чекер и код с почты одним кликом</div>
+                <button class="start-button">Начать работу</button>
+            </section>
+
+            <div class="tools-section">
+                <h3>💡 Инструменты</h3>
+                <p>Выбери нужный тебе инструмент</p>
+                <div class="tools-grid">
+                    <div class="tool-button" data-page="converter-page">
+                        <div class="icons">
+                            <!-- Пусто, место для фото -->
+                        </div>
+                        <div class="divider"></div>
+                        <div class="tool-name">📝 Конвертор</div>
+                    </div>
+                    <div class="tool-button" data-page="update-page">
+                        <div class="icons">
+                            <!-- Пусто, место для фото -->
+                        </div>
+                        <div class="divider"></div>
+                        <div class="tool-name">🔦 Чекер аккаунтов</div>
+                    </div>
+                    <div class="tool-button" data-page="update-page">
+                        <div class="icons">
+                            <!-- Пусто, место для фото -->
+                        </div>
+                        <div class="divider"></div>
+                        <div class="tool-name">🎬 Создание крео</div>
+                    </div>
+                    <div class="tool-button" data-page="update-page">
+                        <div class="icons">
+                            <!-- Пусто, место для фото -->
+                        </div>
+                        <div class="divider"></div>
+                        <div class="tool-name">🪄 Уникализатор</div>
+                    </div>
+                    <div class="tool-button" data-page="update-page">
+                        <div class="icons">
+                            <!-- Пусто, место для фото -->
+                        </div>
+                        <div class="divider"></div>
+                        <div class="tool-name">✉️ Код с почты</div>
+                    </div>
+                    <div class="tool-button" data-page="update-page">
+                        <div class="icons">
+                            <!-- Пусто, место для фото -->
+                        </div>
+                        <div class="divider"></div>
+                        <div class="tool-name">🛒 Магазин</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Страница конвертера -->
+        <div class="converter-page" id="converter-page">
+            <div class="intro-text">
+                <h2>📝 Конвертор</h2>
+                <p>Загрузи файл для изменения формата</p>
+            </div>
+
+            <section class="section">
+                <div class="section-title">
+                    <div class="section-number">1</div>
+                    <span>Ваши аккаунты</span>
+                </div>
+                <div class="section-title-subtext">Файл .txt с аккаунтами</div>
+                <div class="format-options-row">
+                    <button class="format-button clear">Очистить</button>
+                    <button class="format-button add-file">Добавить файл</button>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-title">
+                    <div class="section-number" style="color: #9755fd;">2</div>
+                    <span>Поставщик аккаунтов</span>
+                </div>
+                <div class="section-title-subtext">Где приобретались аккаунты</div>
+                <div class="button-grid">
+                    <div class="button">
+                        <img src="https://i.ibb.co/pBx3SxhX/9eeca0f4-7434-4f5c-8a4e-287dceeec8e7.jpg" alt="Chivap">
+                        <span>Chivap Shop</span>
+                    </div>
+                    <div class="button selected">
+                        <img src="https://i.ibb.co/sJNc1q7Q/0cf68078-16a5-4851-a0b5-feb5297ac470.jpg" alt="Grom">
+                        <span>Grom Shop</span>
+                    </div>
+                    <div class="button">
+                        <img src="https://i.ibb.co/wZskwNp2/d6c8a7f3-01c8-4f62-aa35-f0072beb4665.jpg" alt="Proliv">
+                        <span>Proliv Shop</span>
+                    </div>
+                    <div class="button">
+                        <img src="https://i.ibb.co/4CLYSX0/be105773-907f-44a3-bda1-1d0115d50b3d.jpg" alt="Muted">
+                        <span>Muted Shop</span>
+                    </div>
+                    <div class="button">
+                        <img src="https://i.ibb.co/Y4dkrsbh/85f727a3-b507-4d54-9d93-751ecb26ddba.jpg" alt="Boom">
+                        <span>Boom Store</span>
+                    </div>
+                    <div class="button">
+                         <img src="https://i.ibb.co/xtHwB1RS/641c7bb7-fd80-4cde-bf28-00b62aa84cf8.jpg" alt="Meta">
+                         <span>Meta Store</span>
+                    </div>
+                    <div class="button">
+                        <img src="https://i.ibb.co/xtHwB1RS/641c7bb7-fd80-4cde-bf28-00b62aa84cf8.jpg" alt="Inferno">
+                        <span>Inferno Shop</span>
+                    </div>
+                    <div class="button">
+                        <img src="https://i.ibb.co/21SH4XQh/599c5190-3a26-4c31-82c0-6935b28dcd97.jpg" alt="Monkey">
+                        <span>Monkey Shop</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="section-title">
+                    <div class="section-number" style="color: #9755fd;">3</div>
+                    <span>Выбор формата</span>
+                </div>
+                <div class="section-title-subtext">В какой формат конвертировать</div>
+                <div class="format-options">
+                    <button class="format-button">@username</button>
+                    <button class="format-button">mail:mailpass</button>
+                    <button class="format-button">log:pass</button>
+                    <button class="format-button">Замена : на |</button>
+                    <button class="format-button">Замена | на :</button>
+                </div>
+            </section>
+
+            <button class="convert-button">Конвертировать</button>
+        </div>
+
+        <!-- Страница "ждет обновления" -->
+        <div class="update-page" id="update-page">
+            <div>ждет обновления</div>
+        </div>
+    </main>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="footer-btn selected" data-page="main-page">
+            <svg width="28" height="27" viewBox="0 0 28 27">
+                <path d="M10.6045 3.41309H6.2054C5.62204 3.41309 5.06258 3.64482 4.65009 4.05732C4.2376 4.46981 4.00586 5.02927 4.00586 5.61262V10.0117M10.6045 3.41309H21.6022C22.1855 3.41309 22.745 3.64482 23.1575 4.05732C23.57 4.46981 23.8017 5.02927 23.8017 5.61262V10.0117M10.6045 3.41309V23.2089M4.00586 10.0117V21.0094C4.00586 21.5927 4.2376 22.1522 4.65009 22.5647C5.06258 22.9772 5.62204 23.2089 6.2054 23.2089H10.6045M4.00586 10.0117H23.8017M23.8017 10.0117V21.0094C23.8017 21.5927 23.57 22.1522 23.1575 22.5647C22.745 22.9772 22.1855 23.2089 21.6022 23.2089H10.6045" stroke="currentColor" stroke-width="1.09977" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Главная</span>
+        </div>
+        <div class="footer-btn" data-page="update-page">
+            <svg width="27" height="27" viewBox="0 0 27 27">
+                <path d="M18.6929 23.0913V20.8922C18.6929 19.7256 18.2295 18.6069 17.4047 17.7821C16.5799 16.9572 15.4611 16.4938 14.2946 16.4938H5.49794C4.33143 16.4938 3.2127 16.9572 2.38785 17.7821C1.563 18.6069 1.09961 19.7256 1.09961 20.8922V23.0913M25.2904 23.0913V20.8922C25.2897 19.9176 24.9654 18.9709 24.3683 18.2007C23.7712 17.4305 22.9353 16.8804 21.9917 16.6368M17.5934 3.44177C18.5395 3.68401 19.378 4.23424 19.9769 5.00572C20.5757 5.7772 20.9007 6.72604 20.9007 7.70266C20.9007 8.67928 20.5757 9.62812 19.9769 10.3996C19.378 11.1711 18.5395 11.7213 17.5934 11.9635M14.2946 7.69716C14.2946 10.1263 12.3254 12.0955 9.89628 12.0955C7.46714 12.0955 5.49794 10.1263 5.49794 7.69716C5.49794 5.26803 7.46714 3.29883 9.89628 3.29883C12.3254 3.29883 14.2946 5.26803 14.2946 7.69716Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Аккаунты</span>
+        </div>
+        <div class="footer-btn" data-page="update-page">
+            <svg width="27" height="27" viewBox="0 0 27 27">
+                <path d="M5.49799 23.0913H20.8922C22.1067 23.0913 23.0913 22.1067 23.0913 20.8922V5.49799C23.0913 4.28343 22.1067 3.29883 20.8922 3.29883H5.49799C4.28343 3.29883 3.29883 4.28343 3.29883 5.49799V20.8922C3.29883 22.1067 4.28343 23.0913 5.49799 23.0913ZM5.49799 23.0913L17.5934 10.9959L23.0913 16.4938M10.9959 9.34654C10.9959 10.2575 10.2575 10.9959 9.34654 10.9959C8.43561 10.9959 7.69716 10.2575 7.69716 9.34654C7.69716 8.43561 8.43561 7.69716 9.34654 7.69716C10.2575 7.69716 10.9959 8.43561 10.9959 9.34654Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Крео</span>
+        </div>
+        <div class="footer-btn" data-page="update-page">
+            <svg width="27" height="27" viewBox="0 0 27 27">
+                <path d="M3.29883 6.59755L6.59758 2.19922H19.7926L23.0913 6.59755M3.29883 6.59755V21.9917C3.29883 22.575 3.53053 23.1343 3.94295 23.5468C4.35537 23.9592 4.91474 24.1909 5.49799 24.1909H20.8922C21.4754 24.1909 22.0348 23.9592 22.4472 23.5468C22.8596 23.1343 23.0913 22.575 23.0913 21.9917V6.59755M3.29883 6.59755H23.0913M17.5934 10.9959C17.5934 12.1624 17.13 13.2811 16.3052 14.106C15.4803 14.9308 14.3616 15.3942 13.1951 15.3942C12.0286 15.3942 10.9098 14.9308 10.085 14.106C9.26014 13.2811 8.79674 12.1624 8.79674 10.9959" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Магазин</span>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
     <script>
-        const pages = {
-            home: `
-                <h1>Добро пожаловать</h1>
-                <p>главная страница</p>
-            `,
-            page1: `
-                <h1>1</h1>
-            `,
-            page2: `
-                <h1>2</h1>
-            `,
-            page3: `
-                <h1>3</h1>
-            `,
-            page4: `
-                <h1>4</h1>
-            `
-        };
+        // Инициализация Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.ready();
 
-        const content = document.getElementById('content');
-        const buttons = document.querySelectorAll('.footer-button');
-
-        function updateContent(page) {
-            content.innerHTML = pages[page] || pages['home'];
+        // Получение данных пользователя
+        const user = tg.initDataUnsafe.user;
+        if (user) {
+            const nickname = user.first_name || user.username || 'User';
+            document.querySelector('.user-info .username').textContent = nickname;
+            document.querySelector('#welcome-text').textContent = `👋🏻 Привет, ${nickname}`;
+            if (user.photo_url) {
+                document.querySelector('.user-info img').src = user.photo_url;
+            }
         }
 
-        buttons.forEach(button => {
+        // Переключение страниц
+        const mainPage = document.getElementById('main-page');
+        const converterPage = document.getElementById('converter-page');
+        const updatePage = document.getElementById('update-page');
+
+        function showPage(pageToShow) {
+            mainPage.style.display = 'none';
+            converterPage.style.display = 'none';
+            updatePage.style.display = 'none';
+            pageToShow.style.display = 'block';
+        }
+
+        // Переключение через кнопки инструментов
+        document.querySelectorAll('.tool-button').forEach(button => {
             button.addEventListener('click', () => {
-                buttons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                const page = button.getAttribute('data-page');
-                updateContent(page);
+                const targetPage = button.getAttribute('data-page');
+                if (targetPage === 'converter-page') {
+                    showPage(converterPage);
+                } else if (targetPage === 'update-page') {
+                    showPage(updatePage);
+                }
             });
         });
 
-        buttons[0].classList.add('active');
-        updateContent('home');
+        // Переключение через футер
+        document.querySelectorAll('.footer-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.footer-btn').forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                const targetPage = button.getAttribute('data-page');
+                if (targetPage === 'main-page') {
+                    showPage(mainPage);
+                } else if (targetPage === 'update-page') {
+                    showPage(updatePage);
+                }
+            });
+        });
+
+        // Логика выбора кнопок в разделе "Поставщик аккаунтов" на странице конвертера
+        document.querySelectorAll('.button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.button').forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+            });
+        });
+
+        // Логика выбора кнопок в разделе "Выбор формата" на странице конвертера
+        document.querySelectorAll('.format-options .format-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const siblings = button.parentElement.querySelectorAll('.format-button');
+                siblings.forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+            });
+        });
+
+        // Разворачивание приложения на полный экран
+        tg.expand();
     </script>
 </body>
 </html>
