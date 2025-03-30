@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +21,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         /* Статичный хедер */
@@ -33,6 +35,7 @@
             top: 0;
             z-index: 100;
             border-bottom: 1px solid #2a2a2a;
+            transition: background-color 0.3s;
         }
 
         .header-title {
@@ -104,6 +107,7 @@
         .intro-text p {
             font-size: 16px;
             color: #4c4c4c;
+            margin-bottom: 16px;
         }
 
         .section {
@@ -183,18 +187,18 @@
             align-items: center;
             justify-content: center;
             gap: 5px;
-            min-height: 60px; /* Зарезервировано место для будущих фото */
+            min-height: 60px;
         }
 
         .tool-button .divider {
             width: 100%;
             height: 1px;
             background-color: #2a2a2a;
-            margin: 10px 0; /* Добавляем отступы сверху и снизу */
+            margin: 10px 0;
         }
 
         .tool-button .tool-name {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 500;
             padding: 5px 0;
         }
@@ -286,6 +290,12 @@
             border: none;
         }
 
+        .format-button.add-file.disabled {
+            background-color: #4d3275;
+            color: #706d76;
+            cursor: not-allowed;
+        }
+
         .format-button.selected {
             background-color: #35274a;
             border-color: #5c3a91;
@@ -303,6 +313,12 @@
             cursor: pointer;
             margin-top: 10px;
             margin-bottom: 10px;
+        }
+
+        .convert-button.disabled {
+            background-color: #4d3275;
+            color: #706d76;
+            cursor: not-allowed;
         }
 
         /* Стили для страницы "ждет обновления" */
@@ -326,6 +342,7 @@
             bottom: 0;
             z-index: 100;
             border-top: 1px solid #2a2a2a;
+            transition: background-color 0.3s;
         }
 
         .footer-btn {
@@ -334,10 +351,12 @@
             align-items: center;
             color: #4c4c4c;
             cursor: pointer;
+            transition: color 0.3s;
         }
 
         .footer-btn svg {
             fill: #4c4c4c;
+            transition: fill 0.3s;
         }
 
         .footer-btn.selected {
@@ -353,6 +372,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Хедер -->
     <header class="header">
@@ -365,10 +385,9 @@
                 <span class="username">Nickname</span>
                 <span class="balance">$0</span>
             </div>
-            <img src="user-avatar.jpg" alt="User Avatar">
+            <img src="https://via.placeholder.com/32" alt="User Avatar" class="user-avatar">
         </div>
     </header>
-
     <!-- Основной контент -->
     <main class="main-content">
         <!-- Главная страница -->
@@ -448,7 +467,7 @@
                     <div class="section-number">1</div>
                     <span>Ваши аккаунты</span>
                 </div>
-                <div class="section-title-subtext">Файл .txt с аккаунтами</div>
+                <div class="section-title-subtext" id="file-info">Файл .txt с аккаунтами</div>
                 <div class="format-options-row">
                     <button class="format-button clear">Очистить</button>
                     <button class="format-button add-file">Добавить файл</button>
@@ -462,35 +481,35 @@
                 </div>
                 <div class="section-title-subtext">Где приобретались аккаунты</div>
                 <div class="button-grid">
-                    <div class="button">
+                    <div class="button" data-shop="Chivap Shop">
                         <img src="https://i.ibb.co/pBx3SxhX/9eeca0f4-7434-4f5c-8a4e-287dceeec8e7.jpg" alt="Chivap">
                         <span>Chivap Shop</span>
                     </div>
-                    <div class="button selected">
+                    <div class="button selected" data-shop="Grom Shop">
                         <img src="https://i.ibb.co/sJNc1q7Q/0cf68078-16a5-4851-a0b5-feb5297ac470.jpg" alt="Grom">
                         <span>Grom Shop</span>
                     </div>
-                    <div class="button">
+                    <div class="button" data-shop="Proliv Shop">
                         <img src="https://i.ibb.co/wZskwNp2/d6c8a7f3-01c8-4f62-aa35-f0072beb4665.jpg" alt="Proliv">
                         <span>Proliv Shop</span>
                     </div>
-                    <div class="button">
+                    <div class="button" data-shop="Muted Shop">
                         <img src="https://i.ibb.co/4CLYSX0/be105773-907f-44a3-bda1-1d0115d50b3d.jpg" alt="Muted">
                         <span>Muted Shop</span>
                     </div>
-                    <div class="button">
+                    <div class="button" data-shop="Boom Store">
                         <img src="https://i.ibb.co/Y4dkrsbh/85f727a3-b507-4d54-9d93-751ecb26ddba.jpg" alt="Boom">
                         <span>Boom Store</span>
                     </div>
-                    <div class="button">
-                         <img src="https://i.ibb.co/xtHwB1RS/641c7bb7-fd80-4cde-bf28-00b62aa84cf8.jpg" alt="Meta">
-                         <span>Meta Store</span>
+                    <div class="button" data-shop="Meta Store">
+                        <img src="https://i.ibb.co/xtHwB1RS/641c7bb7-fd80-4cde-bf28-00b62aa84cf8.jpg" alt="Meta">
+                        <span>Meta Store</span>
                     </div>
-                    <div class="button">
+                    <div class="button" data-shop="Inferno Shop">
                         <img src="https://i.ibb.co/xtHwB1RS/641c7bb7-fd80-4cde-bf28-00b62aa84cf8.jpg" alt="Inferno">
                         <span>Inferno Shop</span>
                     </div>
-                    <div class="button">
+                    <div class="button" data-shop="Monkey Shop">
                         <img src="https://i.ibb.co/21SH4XQh/599c5190-3a26-4c31-82c0-6935b28dcd97.jpg" alt="Monkey">
                         <span>Monkey Shop</span>
                     </div>
@@ -504,15 +523,15 @@
                 </div>
                 <div class="section-title-subtext">В какой формат конвертировать</div>
                 <div class="format-options">
-                    <button class="format-button">@username</button>
-                    <button class="format-button">mail:mailpass</button>
-                    <button class="format-button">log:pass</button>
-                    <button class="format-button">Замена : на |</button>
-                    <button class="format-button">Замена | на :</button>
+                    <button class="format-button" data-format="@username">@username</button>
+                    <button class="format-button" data-format="mail:mailpass">mail:mailpass</button>
+                    <button class="format-button" data-format="log:pass">log:pass</button>
+                    <button class="format-button" data-format="replace_colon_to_pipe">Замена : на |</button>
+                    <button class="format-button" data-format="replace_pipe_to_colon">Замена | на :</button>
                 </div>
             </section>
 
-            <button class="convert-button">Конвертировать</button>
+            <button class="convert-button disabled" disabled>Конвертировать</button>
         </div>
 
         <!-- Страница "ждет обновления" -->
@@ -525,25 +544,26 @@
     <footer class="footer">
         <div class="footer-btn selected" data-page="main-page">
             <svg width="28" height="27" viewBox="0 0 28 27">
-                <path d="M10.6045 3.41309H6.2054C5.62204 3.41309 5.06258 3.64482 4.65009 4.05732C4.2376 4.46981 4.00586 5.02927 4.00586 5.61262V10.0117M10.6045 3.41309H21.6022C22.1855 3.41309 22.745 3.64482 23.1575 4.05732C23.57 4.46981 23.8017 5.02927 23.8017 5.61262V10.0117M10.6045 3.41309V23.2089M4.00586 10.0117V21.0094C4.00586 21.5927 4.2376 22.1522 4.65009 22.5647C5.06258 22.9772 5.62204 23.2089 6.2054 23.2089H10.6045M4.00586 10.0117H23.8017M23.8017 10.0117V21.0094C23.8017 21.5927 23.57 22.1522 23.1575 22.5647C22.745 22.9772 22.1855 23.2089 21.6022 23.2089H10.6045" stroke="currentColor" stroke-width="1.09977" stroke-linecap="round" stroke-linejoin="round"/>
+                <path
+                    d="M10.6045 3.41309H6.2054C5.62204 3.41309 5.06258 3.64482 4.65009 4.05732C4.2376 4.46981 4.00586 5.02927 4.00586 5.61262V10.0117M10.6045 3.41309H21.6022C22.1855 3.41309 22.745 3.64482 23.1575 4.05732C23.57 4.46981 23.8017 5.02927 23.8017 5.61262V10.0117M10.6045 3.41309V23.2089M4.00586 10.0117V21.0094C4.00586 21.5927 4.2376 22.1522 4.65009 22.5647C5.06258 22.9772 5.62204 23.2089 6.2054 23.2089H10.6045M4.00586 10.0117H23.8017M23.8017 10.0117V21.0094C23.8017 21.5927 23.57 22.1522 23.1575 22.5647C22.745 22.9772 22.1855 23.2089 21.6022 23.2089H10.6045"
+                    stroke="currentColor" stroke-width="1.09977" stroke-linecap="round"
+                    stroke-linejoin="round" />
             </svg>
             <span>Главная</span>
         </div>
         <div class="footer-btn" data-page="update-page">
             <svg width="27" height="27" viewBox="0 0 27 27">
-                <path d="M18.6929 23.0913V20.8922C18.6929 19.7256 18.2295 18.6069 17.4047 17.7821C16.5799 16.9572 15.4611 16.4938 14.2946 16.4938H5.49794C4.33143 16.4938 3.2127 16.9572 2.38785 17.7821C1.563 18.6069 1.09961 19.7256 1.09961 20.8922V23.0913M25.2904 23.0913V20.8922C25.2897 19.9176 24.9654 18.9709 24.3683 18.2007C23.7712 17.4305 22.9353 16.8804 21.9917 16.6368M17.5934 3.44177C18.5395 3.68401 19.378 4.23424 19.9769 5.00572C20.5757 5.7772 20.9007 6.72604 20.9007 7.70266C20.9007 8.67928 20.5757 9.62812 19.9769 10.3996C19.378 11.1711 18.5395 11.7213 17.5934 11.9635M14.2946 7.69716C14.2946 10.1263 12.3254 12.0955 9.89628 12.0955C7.46714 12.0955 5.49794 10.1263 5.49794 7.69716C5.49794 5.26803 7.46714 3.29883 9.89628 3.29883C12.3254 3.29883 14.2946 5.26803 14.2946 7.69716Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                <path
+                    d="M18.6929 23.0913V20.8922C18.6929 19.7256 18.2295 18.6069 17.4047 17.7821C16.5799 16.9572 15.4611 16.4938 14.2946 16.4938H5.49794C4.33143 16.4938 3.2127 16.9572 2.38785 17.7821C1.563 18.6069 1.09961 19.7256 1.09961 20.8922V23.0913M25.2904 23.0913V20.8922C25.2897 19.9176 24.9654 18.9709 24.3683 18.2007C23.7712 17.4305 22.9353 16.8804 21.9917 16.6368M17.5934 3.44177C18.5395 3.68401 19.378 4.23424 19.9769 5.00572C20.5757 5.7772 20.9007 6.72604 20.9007 7.70266C20.9007 8.67928 20.5757 9.62812 19.9769 10.3996C19.378 11.1711 18.5395 11.7213 17.5934 11.9635M14.2946 7.69716C14.2946 10.1263 12.3254 12.0955 9.89628 12.0955C7.46714 12.0955 5.49794 10.1263 5.49794 7.69716C5.49794 5.26803 7.46714 3.29883 9.89628 3.29883C12.3254 3.29883 14.2946 5.26803 14.2946 7.69716Z"
+                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <span>Аккаунты</span>
         </div>
         <div class="footer-btn" data-page="update-page">
             <svg width="27" height="27" viewBox="0 0 27 27">
-                <path d="M5.49799 23.0913H20.8922C22.1067 23.0913 23.0913 22.1067 23.0913 20.8922V5.49799C23.0913 4.28343 22.1067 3.29883 20.8922 3.29883H5.49799C4.28343 3.29883 3.29883 4.28343 3.29883 5.49799V20.8922C3.29883 22.1067 4.28343 23.0913 5.49799 23.0913ZM5.49799 23.0913L17.5934 10.9959L23.0913 16.4938M10.9959 9.34654C10.9959 10.2575 10.2575 10.9959 9.34654 10.9959C8.43561 10.9959 7.69716 10.2575 7.69716 9.34654C7.69716 8.43561 8.43561 7.69716 9.34654 7.69716C10.2575 7.69716 10.9959 8.43561 10.9959 9.34654Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span>Крео</span>
-        </div>
-        <div class="footer-btn" data-page="update-page">
-            <svg width="27" height="27" viewBox="0 0 27 27">
-                <path d="M3.29883 6.59755L6.59758 2.19922H19.7926L23.0913 6.59755M3.29883 6.59755V21.9917C3.29883 22.575 3.53053 23.1343 3.94295 23.5468C4.35537 23.9592 4.91474 24.1909 5.49799 24.1909H20.8922C21.4754 24.1909 22.0348 23.9592 22.4472 23.5468C22.8596 23.1343 23.0913 22.575 23.0913 21.9917V6.59755M3.29883 6.59755H23.0913M17.5934 10.9959C17.5934 12.1624 17.13 13.2811 16.3052 14.106C15.4803 14.9308 14.3616 15.3942 13.1951 15.3942C12.0286 15.3942 10.9098 14.9308 10.085 14.106C9.26014 13.2811 8.79674 12.1624 8.79674 10.9959" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                <path
+                    d="M5.49799 23.0913H20.8922C22.1067 23.0913 23.0913 22.1067 23.0913 20.8922V5.49799C23.0913 4.28343 22.1067 3.29883 20.8922 3.29883H5.49799C4.28343 3.29883 3.29883 4.28343 3.29883 5.49799V20.8922C3.29883 22.1067 4.28343 23.0913 5.49799 23.0913ZM5.49799 23.0913L17.5934 10.9959L23.0913 16.4938M10.9959 9.34654C10.9959 10.2575 10.2575 10.9959 9.34654 10.9959C8.43561 10.9959 7.69716 10.2575 7.69716 9.34654C7.69716 8.43561 8.43561 7.69716 9.34654 7.69716C10.2575 7.69716 10.9959 8.43561 10.9959 9.34654Z"
+                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <span>Магазин</span>
         </div>
@@ -553,7 +573,32 @@
     <script>
         // Инициализация Telegram Web App
         const tg = window.Telegram.WebApp;
+        console.log("WebApp initialized:", tg);
         tg.ready();
+
+        // Функция для обновления темы
+        function updateTheme() {
+            const themeParams = tg.themeParams;
+            const header = document.querySelector(".header");
+            const footer = document.querySelector(".footer");
+            const buttons = document.querySelectorAll(".footer-btn");
+
+            const bgColor = themeParams.bg_color || "#0e0e0e";
+            const secondaryBgColor = themeParams.secondary_bg_color || "#1c1c1c";
+            const textColor = themeParams.text_color || "#ffffff";
+            const hintColor = themeParams.hint_color || "#4c4c4c";
+
+            document.body.style.backgroundColor = bgColor;
+            header.style.backgroundColor = secondaryBgColor;
+            footer.style.backgroundColor = secondaryBgColor;
+            header.style.color = textColor;
+            buttons.forEach(button => {
+                if (!button.classList.contains("selected")) {
+                    button.style.color = hintColor;
+                    button.querySelector("svg").style.fill = hintColor;
+                }
+            });
+        }
 
         // Получение данных пользователя
         const user = tg.initDataUnsafe.user;
@@ -562,7 +607,7 @@
             document.querySelector('.user-info .username').textContent = nickname;
             document.querySelector('#welcome-text').textContent = `👋🏻 Привет, ${nickname}`;
             if (user.photo_url) {
-                document.querySelector('.user-info img').src = user.photo_url;
+                document.querySelector('.user-info .user-avatar').src = user.photo_url;
             }
         }
 
@@ -584,6 +629,11 @@
                 const targetPage = button.getAttribute('data-page');
                 if (targetPage === 'converter-page') {
                     showPage(converterPage);
+                    // Если файл не выбран, кнопка "Добавить файл" активна
+                    if (!urlParams.get("file")) {
+                        addFileButton.classList.remove('disabled');
+                        addFileButton.disabled = false;
+                    }
                 } else if (targetPage === 'update-page') {
                     showPage(updatePage);
                 }
@@ -593,8 +643,14 @@
         // Переключение через футер
         document.querySelectorAll('.footer-btn').forEach(button => {
             button.addEventListener('click', () => {
-                document.querySelectorAll('.footer-btn').forEach(btn => btn.classList.remove('selected'));
+                document.querySelectorAll('.footer-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                    btn.style.color = tg.themeParams.hint_color || "#4c4c4c";
+                    btn.querySelector("svg").style.fill = tg.themeParams.hint_color || "#4c4c4c";
+                });
                 button.classList.add('selected');
+                button.style.color = "#5c3a91";
+                button.querySelector("svg").style.fill = "#5c3a91";
                 const targetPage = button.getAttribute('data-page');
                 if (targetPage === 'main-page') {
                     showPage(mainPage);
@@ -604,25 +660,112 @@
             });
         });
 
-        // Логика выбора кнопок в разделе "Поставщик аккаунтов" на странице конвертера
-        document.querySelectorAll('.button').forEach(button => {
-            button.addEventListener('click', () => {
-                document.querySelectorAll('.button').forEach(btn => btn.classList.remove('selected'));
-                button.classList.add('selected');
-            });
-        });
+        // Проверяем параметр tab в URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const tab = urlParams.get("tab");
+        const fileName = urlParams.get("file");
+        const addFileButton = document.querySelector('.format-button.add-file');
+        const convertButton = document.querySelector('.convert-button');
 
-        // Логика выбора кнопок в разделе "Выбор формата" на странице конвертера
-        document.querySelectorAll('.format-options .format-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const siblings = button.parentElement.querySelectorAll('.format-button');
-                siblings.forEach(btn => btn.classList.remove('selected'));
-                button.classList.add('selected');
-            });
-        });
+        // Переменные для отслеживания состояния
+        let selectedFile = fileName || null;
+        let selectedShop = "Grom Shop"; // По умолчанию выбран Grom Shop
+        let selectedFormat = null;
 
-        // Разворачивание приложения на полный экран
-        tg.expand();
-    </script>
-</body>
-</html>
+        // Функция для проверки, можно ли активировать кнопку "Конвертировать"
+        function updateConvertButtonState() {
+            if (selectedFile && selectedShop && selectedFormat) {
+                convertButton.classList.remove('disabled');
+                convertButton.disabled = false;
+            } else {
+                convertButton.classList.add('disabled');
+                convertButton.disabled = true;
+                            }
+                        }
+
+                        if (tab === "converter" || tab === "converter-page") {
+                            showPage(converterPage);
+                            if (fileName) {
+                                document.getElementById("file-info").textContent = `Выбранный файл: ${fileName}`;
+                                addFileButton.classList.add('disabled');
+                                addFileButton.disabled = true;
+                                updateConvertButtonState();
+                            }
+                        } else {
+                            showPage(mainPage);
+                        }
+
+                        // Обработчик кнопки "Очистить"
+                        document.querySelector('.format-button.clear').addEventListener('click', () => {
+                            document.getElementById("file-info").textContent = "Файл .txt с аккаунтами";
+                            addFileButton.classList.remove('disabled');
+                            addFileButton.disabled = false;
+                            selectedFile = null;
+                            updateConvertButtonState();
+                        });
+
+                        // Обработчик кнопки "Добавить файл"
+                        addFileButton.addEventListener('click', () => {
+                            if (!addFileButton.classList.contains('disabled')) {
+                                tg.sendData("upload_pack");
+                                setTimeout(() => {
+                                    tg.close();
+                                }, 500);
+                            }
+                        });
+
+                        // Логика выбора магазина
+                        document.querySelectorAll('.button').forEach(button => {
+                            button.addEventListener('click', () => {
+                                document.querySelectorAll('.button').forEach(btn => btn.classList.remove('selected'));
+                                button.classList.add('selected');
+                                selectedShop = button.getAttribute('data-shop');
+                                updateConvertButtonState();
+                            });
+                        });
+
+                        // Логика выбора формата
+                        document.querySelectorAll('.format-options .format-button').forEach(button => {
+                            button.addEventListener('click', () => {
+                                const siblings = button.parentElement.querySelectorAll('.format-button');
+                                siblings.forEach(btn => btn.classList.remove('selected'));
+                                button.classList.add('selected');
+                                selectedFormat = button.getAttribute('data-format');
+                                updateConvertButtonState();
+                            });
+                        });
+
+                        // Обработчик кнопки "Конвертировать"
+                        convertButton.addEventListener('click', () => {
+                            if (!convertButton.classList.contains('disabled')) {
+                                const data = {
+                                    action: "convert",
+                                    file: selectedFile,
+                                    shop: selectedShop,
+                                    format: selectedFormat
+                                };
+
+                                console.log('Data to send:', data);
+
+                                // Convert data to query string
+                                const queryString = Object.keys(data)
+                                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+                                    .join('&');
+
+                                console.log('Query string:', queryString);
+
+                                tg.sendData(queryString);
+                                tg.close();
+                            }
+                        });
+
+                        // Инициализация темы
+                        updateTheme();
+                        tg.onEvent("themeChanged", updateTheme);
+
+                        // Разворачивание приложения на полный экран
+                        tg.expand();
+                    </script>
+                </body>
+
+                </html>
