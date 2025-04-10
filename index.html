@@ -8,6 +8,7 @@
     <!-- Подключение Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        /* === Ваши CSS стили (без изменений) === */
         * {
             margin: 0;
             padding: 0;
@@ -64,6 +65,7 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
+            object-fit: cover; /* Чтобы аватар не искажался */
         }
 
         .user-info .nickname {
@@ -79,7 +81,7 @@
 
         .user-info .nickname .balance {
             font-size: 16px;
-            color: #323234;
+            color: #323234; /* Будет переопределено темой */
         }
 
         /* Основной контент */
@@ -91,7 +93,7 @@
 
         /* Стили для главной страницы */
         .main-page {
-            display: block;
+            display: block; /* По умолчанию показываем главную */
         }
 
         .intro-text {
@@ -106,16 +108,16 @@
 
         .intro-text p {
             font-size: 16px;
-            color: #4c4c4c;
+            color: #4c4c4c; /* Будет переопределено темой */
             margin-bottom: 16px;
         }
 
         .section {
             margin-bottom: 16px;
-            background-color: #1c1c1c;
+            background-color: #1c1c1c; /* Будет переопределено темой */
             padding: 15px;
             border-radius: 10px;
-            border: 1px solid #2a2a2a;
+            border: 1px solid #2a2a2a; /* Будет переопределено темой */
         }
 
         .section-title {
@@ -132,13 +134,13 @@
 
         .section-title-subtext {
             font-size: 16px;
-            color: #4c4c4c;
+            color: #4c4c4c; /* Будет переопределено темой */
             margin-bottom: 10px;
         }
 
         .start-button {
-            background-color: #9755fd;
-            color: #fff;
+            background-color: #9755fd; /* Будет переопределено темой */
+            color: #fff; /* Будет переопределено темой */
             border: none;
             border-radius: 10px;
             padding: 15px;
@@ -157,7 +159,7 @@
 
         .tools-section p {
             font-size: 16px;
-            color: #4c4c4c;
+            color: #4c4c4c; /* Будет переопределено темой */
             margin-bottom: 16px;
         }
 
@@ -168,8 +170,8 @@
         }
 
         .tool-button {
-            background-color: #1c1c1c;
-            border: 1px solid #2a2a2a;
+            background-color: #1c1c1c; /* Будет переопределено темой */
+            border: 1px solid #2a2a2a; /* Будет переопределено темой */
             border-radius: 10px;
             padding: 10px;
             display: flex;
@@ -179,6 +181,12 @@
             cursor: pointer;
             text-align: center;
             min-height: 120px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .tool-button:hover {
+             /* Можно добавить эффект при наведении */
+             background-color: #2a2a2a;
         }
 
         .tool-button .icons {
@@ -188,12 +196,15 @@
             justify-content: center;
             gap: 5px;
             min-height: 60px;
+            /* Пример иконки (замените на свои или оставьте пустым) */
+            /* background: url('path/to/icon.svg') no-repeat center center; */
+            /* background-size: contain; */
         }
 
         .tool-button .divider {
             width: 100%;
             height: 1px;
-            background-color: #2a2a2a;
+            background-color: #2a2a2a; /* Будет переопределено темой */
             margin: 10px 0;
         }
 
@@ -205,55 +216,64 @@
 
         /* Стили для страницы конвертера */
         .converter-page {
-            display: none;
+            display: none; /* Скрыта по умолчанию */
         }
 
         .converter-page .section-number {
-            width: 20px;
-            height: 20px;
+            width: 24px; /* Чуть больше */
+            height: 24px;
             background-color: #35274a;
-            color: #5c3a91;
+            color: #9755fd; /* Сделаем цвет номера ярче */
             border: 1px solid #5c3a91;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 14px; /* Чуть меньше для круглого */
             font-weight: 600;
+            flex-shrink: 0; /* Чтобы не сжимался */
         }
 
         .button-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Адаптивная сетка */
             gap: 10px;
         }
 
         .button {
-            background-color: #323234;
-            border: 1px solid #2a2a2a;
+            background-color: #323234; /* Будет переопределено темой */
+            border: 1px solid #2a2a2a; /* Будет переопределено темой */
             border-radius: 10px;
-            padding: 6px;
+            padding: 8px; /* Немного больше паддинг */
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
         }
 
         .button.selected {
-            background-color: #35274a;
-            border-color: #5c3a91;
+            background-color: #35274a; /* Кастомный цвет для выделения */
+            border-color: #9755fd; /* Яркая рамка */
         }
+        .button.selected span {
+            font-weight: 600; /* Выделяем текст */
+        }
+
 
         .button img {
             width: 32px;
             height: 32px;
             border-radius: 8px;
+            object-fit: cover;
         }
 
         .button span {
-            font-size: 16px;
+            font-size: 14px; /* Немного меньше */
             font-weight: 500;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* Обрезка длинных названий */
         }
 
         .format-options {
@@ -269,41 +289,54 @@
         }
 
         .format-button {
-            padding: 10px;
-            background-color: #323234;
-            border: 1px solid #2a2a2a;
+            padding: 12px 10px; /* Увеличим паддинг */
+            background-color: #323234; /* Будет переопределено темой */
+            border: 1px solid #2a2a2a; /* Будет переопределено темой */
             border-radius: 10px;
             text-align: center;
-            font-size: 16px;
+            font-size: 14px; /* Уменьшим шрифт */
             cursor: pointer;
-            color: #fff;
+            color: #fff; /* Будет переопределено темой */
             flex: 1;
+             transition: background-color 0.2s, border-color 0.2s;
         }
 
         .format-button.clear {
-            background-color: #2a2a2c;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+            background-color: #444; /* Темнее для очистки */
+            box-shadow: none;
+            color: #ccc;
         }
+         .format-button.clear:hover {
+            background-color: #555;
+        }
+
 
         .format-button.add-file {
-            background-color: #9755fd;
+            background-color: #9755fd; /* Будет переопределено темой */
             border: none;
+            font-weight: 600;
         }
+         .format-button.add-file:hover:not(.disabled) {
+            filter: brightness(1.1);
+         }
+
 
         .format-button.add-file.disabled {
-            background-color: #4d3275;
-            color: #706d76;
+            background-color: #4d3275; /* Будет переопределено темой */
+            color: #706d76; /* Будет переопределено темой */
             cursor: not-allowed;
+             filter: none; /* Убираем эффекты */
         }
 
         .format-button.selected {
-            background-color: #35274a;
-            border-color: #5c3a91;
+            background-color: #35274a; /* Кастомный цвет для выделения */
+            border-color: #9755fd; /* Яркая рамка */
+            font-weight: 600;
         }
 
         .convert-button {
-            background-color: #9755fd;
-            color: #fff;
+            background-color: #9755fd; /* Будет переопределено темой */
+            color: #fff; /* Будет переопределено темой */
             border: none;
             border-radius: 10px;
             padding: 15px;
@@ -311,37 +344,43 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 20px; /* Больше отступ сверху */
             margin-bottom: 10px;
+             transition: background-color 0.2s, color 0.2s, filter 0.2s;
         }
+         .convert-button:hover:not(.disabled) {
+            filter: brightness(1.1);
+         }
 
         .convert-button.disabled {
-            background-color: #4d3275;
-            color: #706d76;
+            background-color: #4d3275; /* Будет переопределено темой */
+            color: #706d76; /* Будет переопределено темой */
             cursor: not-allowed;
+            filter: none; /* Убираем эффекты */
         }
 
         /* Стили для страницы "ждет обновления" */
         .update-page {
-            display: none;
-            height: 100%;
+            display: none; /* Скрыта по умолчанию */
+            flex-grow: 1; /* Занимает все доступное место */
             justify-content: center;
             align-items: center;
             text-align: center;
-            font-size: 24px;
-            color: #4c4c4c;
+            font-size: 20px; /* Поменьше */
+            color: #4c4c4c; /* Будет переопределено темой */
+            padding: 20px;
         }
 
         /* Статичный футер */
         .footer {
-            background-color: #1c1c1c;
+            background-color: #1c1c1c; /* Будет переопределено темой */
             padding: 10px;
             display: flex;
             justify-content: space-around;
             position: sticky;
             bottom: 0;
             z-index: 100;
-            border-top: 1px solid #2a2a2a;
+            border-top: 1px solid #2a2a2a; /* Будет переопределено темой */
             transition: background-color 0.3s;
         }
 
@@ -349,26 +388,35 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #4c4c4c;
+            color: #4c4c4c; /* Будет переопределено темой */
             cursor: pointer;
-            transition: color 0.3s;
+            transition: color 0.2s;
+            padding: 5px 10px; /* Добавим паддинг */
+            border-radius: 8px; /* Скругление для эффекта */
+        }
+        .footer-btn:hover {
+            background-color: rgba(255, 255, 255, 0.05); /* Легкий фон при наведении */
         }
 
         .footer-btn svg {
-            fill: #4c4c4c;
-            transition: fill 0.3s;
+            fill: #4c4c4c; /* Будет переопределено темой */
+            transition: fill 0.2s;
+            margin-bottom: 4px; /* Отступ от текста */
         }
 
         .footer-btn.selected {
-            color: #5c3a91;
+            color: #9755fd; /* Яркий цвет для активной */
+        }
+        .footer-btn.selected:hover {
+             background-color: transparent; /* Убираем фон при наведении на активную */
         }
 
         .footer-btn.selected svg {
-            fill: #5c3a91;
+            fill: #9755fd; /* Яркий цвет для активной иконки */
         }
 
         .footer-btn span {
-            font-size: 12px;
+            font-size: 11px; /* Меньше шрифт в футере */
         }
     </style>
 </head>
@@ -382,27 +430,29 @@
         </div>
         <div class="user-info">
             <div class="nickname">
-                <span class="username">Nickname</span>
-                <span class="balance">$0</span>
+                <span class="username">Загрузка...</span>
+                <span class="balance">$0</span> <!-- Баланс пока не используется -->
             </div>
-            <img src="https://via.placeholder.com/32" alt="User Avatar" class="user-avatar">
+            <!-- Используем дефолтную аватарку, JS заменит если есть -->
+            <img src="https://via.placeholder.com/32/000000/FFFFFF/?text=U" alt="User Avatar" class="user-avatar">
         </div>
     </header>
+
     <!-- Основной контент -->
     <main class="main-content">
         <!-- Главная страница -->
         <div class="main-page" id="main-page">
             <div class="intro-text">
-                <h2 id="welcome-text">👋🏻 Привет, username</h2>
+                <h2 id="welcome-text">👋🏻 Привет!</h2>
                 <p>Загрузи аккаунты для быстрой работы</p>
             </div>
 
             <section class="section">
                 <div class="section-title">
-                    <span>🪄 Магия от Monkey</span>
+                    <span>🪄 Магия от Monkey (Скоро)</span>
                 </div>
                 <div class="section-title-subtext">Чекер и код с почты одним кликом</div>
-                <button class="start-button">Начать работу</button>
+                <button class="start-button" disabled>Начать работу (неактивно)</button>
             </section>
 
             <div class="tools-section">
@@ -410,46 +460,34 @@
                 <p>Выбери нужный тебе инструмент</p>
                 <div class="tools-grid">
                     <div class="tool-button" data-page="converter-page">
-                        <div class="icons">
-                            <!-- Пусто, место для фото -->
-                        </div>
+                        <div class="icons" style="font-size: 30px;">📝</div> <!-- Эмодзи как иконка -->
                         <div class="divider"></div>
-                        <div class="tool-name">📝 Конвертор</div>
+                        <div class="tool-name">Конвертор</div>
                     </div>
                     <div class="tool-button" data-page="update-page">
-                        <div class="icons">
-                            <!-- Пусто, место для фото -->
-                        </div>
+                        <div class="icons" style="font-size: 30px;">🔦</div>
                         <div class="divider"></div>
-                        <div class="tool-name">🔦 Чекер аккаунтов</div>
+                        <div class="tool-name">Чекер аккаунтов</div>
                     </div>
                     <div class="tool-button" data-page="update-page">
-                        <div class="icons">
-                            <!-- Пусто, место для фото -->
-                        </div>
+                         <div class="icons" style="font-size: 30px;">🎬</div>
                         <div class="divider"></div>
-                        <div class="tool-name">🎬 Создание крео</div>
+                        <div class="tool-name">Создание крео</div>
                     </div>
                     <div class="tool-button" data-page="update-page">
-                        <div class="icons">
-                            <!-- Пусто, место для фото -->
-                        </div>
+                         <div class="icons" style="font-size: 30px;">🪄</div>
                         <div class="divider"></div>
-                        <div class="tool-name">🪄 Уникализатор</div>
+                        <div class="tool-name">Уникализатор</div>
                     </div>
                     <div class="tool-button" data-page="update-page">
-                        <div class="icons">
-                            <!-- Пусто, место для фото -->
-                        </div>
+                         <div class="icons" style="font-size: 30px;">✉️</div>
                         <div class="divider"></div>
-                        <div class="tool-name">✉️ Код с почты</div>
+                        <div class="tool-name">Код с почты</div>
                     </div>
                     <div class="tool-button" data-page="update-page">
-                        <div class="icons">
-                            <!-- Пусто, место для фото -->
-                        </div>
+                         <div class="icons" style="font-size: 30px;">🛒</div>
                         <div class="divider"></div>
-                        <div class="tool-name">🛒 Магазин</div>
+                        <div class="tool-name">Магазин</div>
                     </div>
                 </div>
             </div>
@@ -459,7 +497,7 @@
         <div class="converter-page" id="converter-page">
             <div class="intro-text">
                 <h2>📝 Конвертор</h2>
-                <p>Загрузи файл для изменения формата</p>
+                <p>Измените формат ваших аккаунтов</p>
             </div>
 
             <section class="section">
@@ -467,67 +505,73 @@
                     <div class="section-number">1</div>
                     <span>Ваши аккаунты</span>
                 </div>
-                <div class="section-title-subtext" id="file-info">Файл .txt с аккаунтами</div>
+                <div class="section-title-subtext" id="file-info">Файл не выбран</div>
                 <div class="format-options-row">
-                    <button class="format-button clear">Очистить</button>
-                    <button class="format-button add-file">Добавить файл</button>
+                    <button class="format-button clear">🗑 Очистить</button>
+                    <button class="format-button add-file">➕ Добавить файл</button>
                 </div>
             </section>
 
             <section class="section">
                 <div class="section-title">
-                    <div class="section-number" style="color: #9755fd;">2</div>
+                    <div class="section-number">2</div>
                     <span>Поставщик аккаунтов</span>
                 </div>
-                <div class="section-title-subtext">Где приобретались аккаунты</div>
+                <div class="section-title-subtext">Где приобретались аккаунты?</div>
                 <div class="button-grid">
+                    <!-- Кнопки магазинов (без изменений в HTML) -->
                     <div class="button" data-shop="Chivap Shop">
                         <img src="https://i.ibb.co/pBx3SxhX/9eeca0f4-7434-4f5c-8a4e-287dceeec8e7.jpg" alt="Chivap">
-                        <span>Chivap Shop</span>
+                        <span>Chivap</span> <!-- Короче название -->
                     </div>
-                    <div class="button selected" data-shop="Grom Shop">
+                    <div class="button selected" data-shop="Grom Shop"> <!-- Grom выбран по умолчанию -->
                         <img src="https://i.ibb.co/sJNc1q7Q/0cf68078-16a5-4851-a0b5-feb5297ac470.jpg" alt="Grom">
-                        <span>Grom Shop</span>
+                        <span>Grom</span>
                     </div>
                     <div class="button" data-shop="Proliv Shop">
                         <img src="https://i.ibb.co/wZskwNp2/d6c8a7f3-01c8-4f62-aa35-f0072beb4665.jpg" alt="Proliv">
-                        <span>Proliv Shop</span>
+                        <span>Proliv</span>
                     </div>
                     <div class="button" data-shop="Muted Shop">
                         <img src="https://i.ibb.co/4CLYSX0/be105773-907f-44a3-bda1-1d0115d50b3d.jpg" alt="Muted">
-                        <span>Muted Shop</span>
+                        <span>Muted</span>
                     </div>
                     <div class="button" data-shop="Boom Store">
                         <img src="https://i.ibb.co/Y4dkrsbh/85f727a3-b507-4d54-9d93-751ecb26ddba.jpg" alt="Boom">
-                        <span>Boom Store</span>
+                        <span>Boom</span>
                     </div>
                     <div class="button" data-shop="Meta Store">
                         <img src="https://i.ibb.co/xtHwB1RS/641c7bb7-fd80-4cde-bf28-00b62aa84cf8.jpg" alt="Meta">
-                        <span>Meta Store</span>
+                        <span>Meta</span>
                     </div>
                     <div class="button" data-shop="Inferno Shop">
-                        <img src="https://i.ibb.co/xtHwB1RS/641c7bb7-fd80-4cde-bf28-00b62aa84cf8.jpg" alt="Inferno">
-                        <span>Inferno Shop</span>
+                        <img src="https://i.ibb.co/xtHwB1RS/641c7bb7-fd80-4cde-bf28-00b62aa84cf8.jpg" alt="Inferno"> <!-- Используйте другую иконку если есть -->
+                        <span>Inferno</span>
                     </div>
                     <div class="button" data-shop="Monkey Shop">
                         <img src="https://i.ibb.co/21SH4XQh/599c5190-3a26-4c31-82c0-6935b28dcd97.jpg" alt="Monkey">
-                        <span>Monkey Shop</span>
+                        <span>Monkey</span>
+                    </div>
+                     <div class="button" data-shop="Другой"> <!-- Опция для неизвестного формата -->
+                        <img src="https://via.placeholder.com/32/cccccc/000000?text=?" alt="Other">
+                        <span>Другой</span>
                     </div>
                 </div>
             </section>
 
             <section class="section">
                 <div class="section-title">
-                    <div class="section-number" style="color: #9755fd;">3</div>
+                    <div class="section-number">3</div>
                     <span>Выбор формата</span>
                 </div>
-                <div class="section-title-subtext">В какой формат конвертировать</div>
+                <div class="section-title-subtext">В какой формат конвертировать?</div>
                 <div class="format-options">
+                    <!-- Кнопки форматов (без изменений в HTML) -->
                     <button class="format-button" data-format="@username">@username</button>
                     <button class="format-button" data-format="mail:mailpass">mail:mailpass</button>
                     <button class="format-button" data-format="log:pass">log:pass</button>
-                    <button class="format-button" data-format="replace_colon_to_pipe">Замена : на |</button>
-                    <button class="format-button" data-format="replace_pipe_to_colon">Замена | на :</button>
+                    <button class="format-button" data-format="replace_colon_to_pipe">Замена ':' на '|'</button>
+                    <button class="format-button" data-format="replace_pipe_to_colon">Замена '|' на ':'</button>
                 </div>
             </section>
 
@@ -536,35 +580,22 @@
 
         <!-- Страница "ждет обновления" -->
         <div class="update-page" id="update-page">
-            <div>ждет обновления</div>
+            <div>🛠️ Этот раздел находится в разработке.<br>Скоро здесь появятся новые инструменты!</div>
         </div>
     </main>
 
     <!-- Футер -->
     <footer class="footer">
-        <div class="footer-btn selected" data-page="main-page">
-            <svg width="28" height="27" viewBox="0 0 28 27">
-                <path
-                    d="M10.6045 3.41309H6.2054C5.62204 3.41309 5.06258 3.64482 4.65009 4.05732C4.2376 4.46981 4.00586 5.02927 4.00586 5.61262V10.0117M10.6045 3.41309H21.6022C22.1855 3.41309 22.745 3.64482 23.1575 4.05732C23.57 4.46981 23.8017 5.02927 23.8017 5.61262V10.0117M10.6045 3.41309V23.2089M4.00586 10.0117V21.0094C4.00586 21.5927 4.2376 22.1522 4.65009 22.5647C5.06258 22.9772 5.62204 23.2089 6.2054 23.2089H10.6045M4.00586 10.0117H23.8017M23.8017 10.0117V21.0094C23.8017 21.5927 23.57 22.1522 23.1575 22.5647C22.745 22.9772 22.1855 23.2089 21.6022 23.2089H10.6045"
-                    stroke="currentColor" stroke-width="1.09977" stroke-linecap="round"
-                    stroke-linejoin="round" />
-            </svg>
+        <div class="footer-btn selected" data-page="main-page"> <!-- Главная выбрана по умолчанию -->
+            <svg width="28" height="27" viewBox="0 0 28 27"> <path d="M10.6045 3.41309H6.2054C5.62204 3.41309 5.06258 3.64482 4.65009 4.05732C4.2376 4.46981 4.00586 5.02927 4.00586 5.61262V10.0117M10.6045 3.41309H21.6022C22.1855 3.41309 22.745 3.64482 23.1575 4.05732C23.57 4.46981 23.8017 5.02927 23.8017 5.61262V10.0117M10.6045 3.41309V23.2089M4.00586 10.0117V21.0094C4.00586 21.5927 4.2376 22.1522 4.65009 22.5647C5.06258 22.9772 5.62204 23.2089 6.2054 23.2089H10.6045M4.00586 10.0117H23.8017M23.8017 10.0117V21.0094C23.8017 21.5927 23.57 22.1522 23.1575 22.5647C22.745 22.9772 22.1855 23.2089 21.6022 23.2089H10.6045" stroke="currentColor" stroke-width="1.09977" stroke-linecap="round" stroke-linejoin="round" /> </svg>
             <span>Главная</span>
         </div>
-        <div class="footer-btn" data-page="update-page">
-            <svg width="27" height="27" viewBox="0 0 27 27">
-                <path
-                    d="M18.6929 23.0913V20.8922C18.6929 19.7256 18.2295 18.6069 17.4047 17.7821C16.5799 16.9572 15.4611 16.4938 14.2946 16.4938H5.49794C4.33143 16.4938 3.2127 16.9572 2.38785 17.7821C1.563 18.6069 1.09961 19.7256 1.09961 20.8922V23.0913M25.2904 23.0913V20.8922C25.2897 19.9176 24.9654 18.9709 24.3683 18.2007C23.7712 17.4305 22.9353 16.8804 21.9917 16.6368M17.5934 3.44177C18.5395 3.68401 19.378 4.23424 19.9769 5.00572C20.5757 5.7772 20.9007 6.72604 20.9007 7.70266C20.9007 8.67928 20.5757 9.62812 19.9769 10.3996C19.378 11.1711 18.5395 11.7213 17.5934 11.9635M14.2946 7.69716C14.2946 10.1263 12.3254 12.0955 9.89628 12.0955C7.46714 12.0955 5.49794 10.1263 5.49794 7.69716C5.49794 5.26803 7.46714 3.29883 9.89628 3.29883C12.3254 3.29883 14.2946 5.26803 14.2946 7.69716Z"
-                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+        <div class="footer-btn" data-page="update-page"> <!-- Ссылка на страницу "в разработке" -->
+            <svg width="27" height="27" viewBox="0 0 27 27"> <path d="M18.6929 23.0913V20.8922C18.6929 19.7256 18.2295 18.6069 17.4047 17.7821C16.5799 16.9572 15.4611 16.4938 14.2946 16.4938H5.49794C4.33143 16.4938 3.2127 16.9572 2.38785 17.7821C1.563 18.6069 1.09961 19.7256 1.09961 20.8922V23.0913M25.2904 23.0913V20.8922C25.2897 19.9176 24.9654 18.9709 24.3683 18.2007C23.7712 17.4305 22.9353 16.8804 21.9917 16.6368M17.5934 3.44177C18.5395 3.68401 19.378 4.23424 19.9769 5.00572C20.5757 5.7772 20.9007 6.72604 20.9007 7.70266C20.9007 8.67928 20.5757 9.62812 19.9769 10.3996C19.378 11.1711 18.5395 11.7213 17.5934 11.9635M14.2946 7.69716C14.2946 10.1263 12.3254 12.0955 9.89628 12.0955C7.46714 12.0955 5.49794 10.1263 5.49794 7.69716C5.49794 5.26803 7.46714 3.29883 9.89628 3.29883C12.3254 3.29883 14.2946 5.26803 14.2946 7.69716Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" /> </svg>
             <span>Аккаунты</span>
         </div>
-        <div class="footer-btn" data-page="update-page">
-            <svg width="27" height="27" viewBox="0 0 27 27">
-                <path
-                    d="M5.49799 23.0913H20.8922C22.1067 23.0913 23.0913 22.1067 23.0913 20.8922V5.49799C23.0913 4.28343 22.1067 3.29883 20.8922 3.29883H5.49799C4.28343 3.29883 3.29883 4.28343 3.29883 5.49799V20.8922C3.29883 22.1067 4.28343 23.0913 5.49799 23.0913ZM5.49799 23.0913L17.5934 10.9959L23.0913 16.4938M10.9959 9.34654C10.9959 10.2575 10.2575 10.9959 9.34654 10.9959C8.43561 10.9959 7.69716 10.2575 7.69716 9.34654C7.69716 8.43561 8.43561 7.69716 9.34654 7.69716C10.2575 7.69716 10.9959 8.43561 10.9959 9.34654Z"
-                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+        <div class="footer-btn" data-page="update-page"> <!-- Ссылка на страницу "в разработке" -->
+             <svg width="27" height="27" viewBox="0 0 27 27"> <path d="M5.49799 23.0913H20.8922C22.1067 23.0913 23.0913 22.1067 23.0913 20.8922V5.49799C23.0913 4.28343 22.1067 3.29883 20.8922 3.29883H5.49799C4.28343 3.29883 3.29883 4.28343 3.29883 5.49799V20.8922C3.29883 22.1067 4.28343 23.0913 5.49799 23.0913ZM5.49799 23.0913L17.5934 10.9959L23.0913 16.4938M10.9959 9.34654C10.9959 10.2575 10.2575 10.9959 9.34654 10.9959C8.43561 10.9959 7.69716 10.2575 7.69716 9.34654C7.69716 8.43561 8.43561 7.69716 9.34654 7.69716C10.2575 7.69716 10.9959 8.43561 10.9959 9.34654Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" /> </svg>
             <span>Магазин</span>
         </div>
     </footer>
@@ -574,198 +605,389 @@
         // Инициализация Telegram Web App
         const tg = window.Telegram.WebApp;
         console.log("WebApp initialized:", tg);
-        tg.ready();
-
-        // Функция для обновления темы
-        function updateTheme() {
-            const themeParams = tg.themeParams;
-            const header = document.querySelector(".header");
-            const footer = document.querySelector(".footer");
-            const buttons = document.querySelectorAll(".footer-btn");
-
-            const bgColor = themeParams.bg_color || "#0e0e0e";
-            const secondaryBgColor = themeParams.secondary_bg_color || "#1c1c1c";
-            const textColor = themeParams.text_color || "#ffffff";
-            const hintColor = themeParams.hint_color || "#4c4c4c";
-
-            document.body.style.backgroundColor = bgColor;
-            header.style.backgroundColor = secondaryBgColor;
-            footer.style.backgroundColor = secondaryBgColor;
-            header.style.color = textColor;
-            buttons.forEach(button => {
-                if (!button.classList.contains("selected")) {
-                    button.style.color = hintColor;
-                    button.querySelector("svg").style.fill = hintColor;
-                }
-            });
+        // Проверка доступности SDK
+        if (!tg || !tg.initDataUnsafe) {
+            console.error("Telegram WebApp SDK not loaded or initData is missing!");
+            // Можно показать сообщение об ошибке пользователю
+            document.body.innerHTML = '<div style="color: red; padding: 20px;">Ошибка загрузки приложения Telegram. Попробуйте перезапустить бота.</div>';
         }
 
-        // Получение данных пользователя
-        const user = tg.initDataUnsafe.user;
-        if (user) {
-            const nickname = user.first_name || user.username || 'User';
-            document.querySelector('.user-info .username').textContent = nickname;
-            document.querySelector('#welcome-text').textContent = `👋🏻 Привет, ${nickname}`;
-            if (user.photo_url) {
-                document.querySelector('.user-info .user-avatar').src = user.photo_url;
-            }
-        }
+        tg.ready(); // Сообщаем Telegram, что приложение готово
 
-        // Переключение страниц
+        // --- Глобальные переменные и элементы ---
         const mainPage = document.getElementById('main-page');
         const converterPage = document.getElementById('converter-page');
         const updatePage = document.getElementById('update-page');
-
-        function showPage(pageToShow) {
-            mainPage.style.display = 'none';
-            converterPage.style.display = 'none';
-            updatePage.style.display = 'none';
-            pageToShow.style.display = 'block';
-        }
-
-        // Переключение через кнопки инструментов
-        document.querySelectorAll('.tool-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const targetPage = button.getAttribute('data-page');
-                if (targetPage === 'converter-page') {
-                    showPage(converterPage);
-                    // Если файл не выбран, кнопка "Добавить файл" активна
-                    if (!urlParams.get("file")) {
-                        addFileButton.classList.remove('disabled');
-                        addFileButton.disabled = false;
-                    }
-                } else if (targetPage === 'update-page') {
-                    showPage(updatePage);
-                }
-            });
-        });
-
-        // Переключение через футер
-        document.querySelectorAll('.footer-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                document.querySelectorAll('.footer-btn').forEach(btn => {
-                    btn.classList.remove('selected');
-                    btn.style.color = tg.themeParams.hint_color || "#4c4c4c";
-                    btn.querySelector("svg").style.fill = tg.themeParams.hint_color || "#4c4c4c";
-                });
-                button.classList.add('selected');
-                button.style.color = "#5c3a91";
-                button.querySelector("svg").style.fill = "#5c3a91";
-                const targetPage = button.getAttribute('data-page');
-                if (targetPage === 'main-page') {
-                    showPage(mainPage);
-                } else if (targetPage === 'update-page') {
-                    showPage(updatePage);
-                }
-            });
-        });
-
-        // Проверяем параметр tab в URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const tab = urlParams.get("tab");
-        const fileName = urlParams.get("file");
+        const pages = {
+            'main-page': mainPage,
+            'converter-page': converterPage,
+            'update-page': updatePage
+        };
         const addFileButton = document.querySelector('.format-button.add-file');
         const convertButton = document.querySelector('.convert-button');
+        const fileInfoElement = document.getElementById("file-info");
+        const urlParams = new URLSearchParams(window.location.search);
 
-        // Переменные для отслеживания состояния
-        let selectedFile = fileName || null;
-        let selectedShop = "Grom Shop"; // По умолчанию выбран Grom Shop
-        let selectedFormat = null;
+        // Переменные для отслеживания состояния конвертера
+        let selectedFile = urlParams.get("file") || null; // Получаем файл из URL при запуске
+        let selectedShop = "Grom Shop"; // Магазин по умолчанию
+        let selectedFormat = null; // Формат не выбран по умолчанию
 
-        // Функция для проверки, можно ли активировать кнопку "Конвертировать"
-        function updateConvertButtonState() {
-            if (selectedFile && selectedShop && selectedFormat) {
-                convertButton.classList.remove('disabled');
-                convertButton.disabled = false;
+        // --- Функции ---
+
+        // Функция для обновления темы на основе параметров Telegram
+        function updateTheme() {
+            if (!tg.themeParams) {
+                console.warn("Theme params not available yet.");
+                return;
+            }
+            const themeParams = tg.themeParams;
+            console.log("Applying theme:", themeParams);
+
+            // Основные цвета
+            const bgColor = themeParams.bg_color || "#0e0e0e";
+            const textColor = themeParams.text_color || "#ffffff";
+            const hintColor = themeParams.hint_color || "#4c4c4c";
+            const linkColor = themeParams.link_color || "#5c3a91"; // Используем цвет ссылок для акцентов
+            const buttonColor = themeParams.button_color || "#9755fd";
+            const buttonTextColor = themeParams.button_text_color || "#ffffff";
+            const secondaryBgColor = themeParams.secondary_bg_color || "#1c1c1c";
+            const headerBgColor = themeParams.header_bg_color || secondaryBgColor; // Используем цвет хедера если есть
+            const sectionBgColor = themeParams.section_bg_color || secondaryBgColor;
+            const sectionHeaderTextColor = themeParams.section_header_text_color || hintColor; // Для разделителей и т.п.
+
+            // Применяем стили
+            document.body.style.backgroundColor = bgColor;
+            document.body.style.color = textColor;
+
+            // Хедер и футер
+            document.querySelector(".header").style.backgroundColor = headerBgColor;
+            document.querySelector(".header").style.borderBottomColor = sectionHeaderTextColor;
+            document.querySelector(".footer").style.backgroundColor = headerBgColor; // Футер тоже как хедер
+            document.querySelector(".footer").style.borderTopColor = sectionHeaderTextColor;
+
+            // Текст пользователя
+            document.querySelector(".user-info .username").style.color = textColor;
+            document.querySelector(".user-info .balance").style.color = hintColor;
+
+            // Секции
+            document.querySelectorAll('.section').forEach(el => {
+                el.style.backgroundColor = sectionBgColor;
+                el.style.borderColor = sectionHeaderTextColor;
+            });
+            document.querySelectorAll('.section-title span').forEach(el => el.style.color = textColor);
+            document.querySelectorAll('.section-title-subtext').forEach(el => el.style.color = hintColor);
+
+             // Заголовки и параграфы
+            document.querySelectorAll('.intro-text h2, .tools-section h3').forEach(el => el.style.color = textColor);
+            document.querySelectorAll('.intro-text p, .tools-section p').forEach(el => el.style.color = hintColor);
+
+            // Кнопки обычные (неактивные)
+            document.querySelectorAll('.button, .format-button, .tool-button').forEach(el => {
+                if (!el.classList.contains('selected') && !el.classList.contains('add-file') && !el.classList.contains('clear')) {
+                    el.style.backgroundColor = secondaryBgColor; // Используем вторичный фон для неактивных
+                    el.style.borderColor = sectionHeaderTextColor;
+                    el.style.color = textColor;
+                }
+                 if (el.classList.contains('tool-button')) {
+                     el.querySelector('.divider').style.backgroundColor = sectionHeaderTextColor;
+                     el.querySelector('.tool-name').style.color = textColor;
+                 }
+            });
+
+            // Кнопки действий (Start, Convert, Add File)
+            document.querySelectorAll('.start-button, .convert-button, .format-button.add-file').forEach(el => {
+                 if (!el.classList.contains('disabled')) {
+                    el.style.backgroundColor = buttonColor;
+                    el.style.color = buttonTextColor;
+                 }
+            });
+
+             // Кнопка Очистить
+            document.querySelectorAll('.format-button.clear').forEach(el => {
+                el.style.backgroundColor = secondaryBgColor; // Темнее
+                el.style.borderColor = sectionHeaderTextColor;
+                el.style.color = hintColor; // Тусклый цвет
+            });
+
+            // Отключенные кнопки
+            document.querySelectorAll('.start-button.disabled, .convert-button.disabled, .format-button.add-file.disabled').forEach(el => {
+                 el.style.backgroundColor = secondaryBgColor; // Тусклый фон
+                 el.style.color = hintColor; // Тусклый текст
+                 el.style.opacity = '0.6'; // Полупрозрачность
+            });
+
+            // Выбранные кнопки (Магазин, Формат) - используем linkColor для акцента
+            document.querySelectorAll('.button.selected, .format-button.selected').forEach(el => {
+                 el.style.backgroundColor = secondaryBgColor; // Фон как у неактивных
+                 el.style.borderColor = linkColor; // Рамка цвета ссылки
+                 el.style.color = linkColor; // Текст цвета ссылки
+                 el.style.fontWeight = '600';
+            });
+             // Сбрасываем стиль для невыбранных
+            document.querySelectorAll('.button:not(.selected), .format-button:not(.selected)').forEach(el => {
+                 el.style.fontWeight = '500';
+            });
+
+
+            // Футер - активная и неактивные кнопки
+            document.querySelectorAll('.footer-btn').forEach(button => {
+                const isActive = button.classList.contains('selected');
+                const color = isActive ? linkColor : hintColor;
+                button.style.color = color;
+                button.querySelector("svg").style.fill = color;
+            });
+
+             // Страница "ждет обновления"
+            document.querySelector('.update-page div').style.color = hintColor;
+        }
+
+        // Функция для отображения нужной страницы
+        function showPage(pageId) {
+            console.log("Showing page:", pageId);
+            Object.values(pages).forEach(page => page.style.display = 'none'); // Скрыть все страницы
+            if (pages[pageId]) {
+                 pages[pageId].style.display = pageId === 'update-page' ? 'flex' : 'block'; // flex для центрирования update-page
+                 // Обновляем выделение в футере
+                 document.querySelectorAll('.footer-btn').forEach(btn => {
+                     const isCurrentPage = btn.getAttribute('data-page') === pageId;
+                     btn.classList.toggle('selected', isCurrentPage);
+                     // Обновляем цвета футера сразу после переключения
+                     const color = isCurrentPage ? (tg.themeParams.link_color || "#5c3a91") : (tg.themeParams.hint_color || "#4c4c4c");
+                     btn.style.color = color;
+                     btn.querySelector("svg").style.fill = color;
+                 });
             } else {
-                convertButton.classList.add('disabled');
-                convertButton.disabled = true;
-                            }
-                        }
+                console.error("Page not found:", pageId);
+                pages['main-page'].style.display = 'block'; // Показать главную по умолчанию в случае ошибки
+                 // Убедимся, что и в футере выделена главная
+                 showPage('main-page'); // Рекурсивный вызов для исправления футера
+            }
+        }
 
-                        if (tab === "converter" || tab === "converter-page") {
-                            showPage(converterPage);
-                            if (fileName) {
-                                document.getElementById("file-info").textContent = `Выбранный файл: ${fileName}`;
-                                addFileButton.classList.add('disabled');
-                                addFileButton.disabled = true;
-                                updateConvertButtonState();
-                            }
-                        } else {
-                            showPage(mainPage);
-                        }
+        // Функция для обновления состояния кнопки "Конвертировать"
+        function updateConvertButtonState() {
+            const canConvert = selectedFile && selectedShop && selectedFormat;
+            convertButton.classList.toggle('disabled', !canConvert);
+            convertButton.disabled = !canConvert;
+            console.log("Convert button state updated. Can convert:", canConvert);
+        }
 
-                        // Обработчик кнопки "Очистить"
-                        document.querySelector('.format-button.clear').addEventListener('click', () => {
-                            document.getElementById("file-info").textContent = "Файл .txt с аккаунтами";
-                            addFileButton.classList.remove('disabled');
-                            addFileButton.disabled = false;
-                            selectedFile = null;
-                            updateConvertButtonState();
-                        });
+        // Инициализация состояния страницы конвертера
+        function initializeConverterState() {
+             // Обновляем текст информации о файле
+            if (selectedFile) {
+                fileInfoElement.textContent = `Выбран: ${selectedFile}`;
+                addFileButton.classList.add('disabled');
+                addFileButton.disabled = true;
+            } else {
+                fileInfoElement.textContent = "Файл не выбран";
+                addFileButton.classList.remove('disabled');
+                addFileButton.disabled = false;
+            }
 
-                        // Обработчик кнопки "Добавить файл"
-                        addFileButton.addEventListener('click', () => {
-                            if (!addFileButton.classList.contains('disabled')) {
-                                tg.sendData("upload_pack");
-                                setTimeout(() => {
-                                    tg.close();
-                                }, 500);
-                            }
-                        });
+             // Устанавливаем выбранный магазин (Grom Shop по умолчанию)
+             document.querySelectorAll('.button[data-shop]').forEach(button => {
+                button.classList.toggle('selected', button.getAttribute('data-shop') === selectedShop);
+            });
 
-                        // Логика выбора магазина
-                        document.querySelectorAll('.button').forEach(button => {
-                            button.addEventListener('click', () => {
-                                document.querySelectorAll('.button').forEach(btn => btn.classList.remove('selected'));
-                                button.classList.add('selected');
-                                selectedShop = button.getAttribute('data-shop');
-                                updateConvertButtonState();
-                            });
-                        });
+             // Сбрасываем выбор формата (если он был)
+            document.querySelectorAll('.format-options .format-button[data-format]').forEach(button => {
+                button.classList.remove('selected');
+            });
+            selectedFormat = null; // Убедимся, что формат сброшен
 
-                        // Логика выбора формата
-                        document.querySelectorAll('.format-options .format-button').forEach(button => {
-                            button.addEventListener('click', () => {
-                                const siblings = button.parentElement.querySelectorAll('.format-button');
-                                siblings.forEach(btn => btn.classList.remove('selected'));
-                                button.classList.add('selected');
-                                selectedFormat = button.getAttribute('data-format');
-                                updateConvertButtonState();
-                            });
-                        });
+             // Обновляем состояние кнопки конвертации
+            updateConvertButtonState();
+            console.log("Converter state initialized. File:", selectedFile, "Shop:", selectedShop, "Format:", selectedFormat);
+        }
 
-                        // Обработчик кнопки "Конвертировать"
-                        convertButton.addEventListener('click', () => {
-                            if (!convertButton.classList.contains('disabled')) {
-                                const data = {
-                                    action: "convert",
-                                    file: selectedFile,
-                                    shop: selectedShop,
-                                    format: selectedFormat
-                                };
+        // Функция для виброотклика (если поддерживается)
+        function triggerHapticFeedback(style = 'light') {
+             if (tg.HapticFeedback && tg.HapticFeedback.impactOccurred) {
+                 try {
+                    tg.HapticFeedback.impactOccurred(style);
+                 } catch (e) {
+                     console.warn("Haptic feedback error:", e);
+                 }
+             }
+        }
 
-                                console.log('Data to send:', data);
+        // --- Инициализация и обработчики событий ---
 
-                                // Convert data to query string
-                                const queryString = Object.keys(data)
-                                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
-                                    .join('&');
+        // 1. Получение данных пользователя и отображение
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            const user = tg.initDataUnsafe.user;
+            const nickname = user.first_name || user.username || 'User';
+            document.querySelector('.user-info .username').textContent = nickname;
+            document.querySelector('#welcome-text').textContent = `👋🏻 Привет, ${nickname}!`;
+            if (user.photo_url) {
+                document.querySelector('.user-info .user-avatar').src = user.photo_url;
+            }
+            console.log("User data loaded:", user);
+        } else {
+             console.warn("User data not found in initDataUnsafe.");
+             document.querySelector('.user-info .username').textContent = 'Пользователь';
+             document.querySelector('#welcome-text').textContent = `👋🏻 Привет!`;
+        }
 
-                                console.log('Query string:', queryString);
+        // 2. Инициализация темы и подписка на изменения
+        updateTheme();
+        tg.onEvent("themeChanged", updateTheme);
 
-                                tg.sendData(queryString);
-                                tg.close();
-                            }
-                        });
+        // 3. Определение начальной страницы и инициализация конвертера
+        const initialTab = urlParams.get("tab");
+        if (initialTab === "converter" || initialTab === "converter-page") {
+             showPage('converter-page');
+             initializeConverterState();
+        } else {
+             showPage('main-page'); // Показываем главную по умолчанию
+        }
 
-                        // Инициализация темы
-                        updateTheme();
-                        tg.onEvent("themeChanged", updateTheme);
+        // 4. Обработчики кликов по кнопкам инструментов
+        document.querySelectorAll('.tool-button').forEach(button => {
+            button.addEventListener('click', () => {
+                triggerHapticFeedback();
+                const targetPageId = button.getAttribute('data-page');
+                showPage(targetPageId);
+                 // Если перешли на страницу конвертера, инициализируем её состояние
+                 if (targetPageId === 'converter-page') {
+                     initializeConverterState();
+                 }
+            });
+        });
 
-                        // Разворачивание приложения на полный экран
-                        tg.expand();
-                    </script>
-                </body>
+        // 5. Обработчики кликов по кнопкам футера
+        document.querySelectorAll('.footer-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                triggerHapticFeedback();
+                const targetPageId = button.getAttribute('data-page');
+                showPage(targetPageId);
+                 // Если перешли на страницу конвертера, инициализируем её состояние
+                 if (targetPageId === 'converter-page') {
+                     initializeConverterState();
+                 }
+            });
+        });
 
-                </html>
+        // 6. Обработчик кнопки "Очистить" на странице конвертера
+        document.querySelector('.format-button.clear').addEventListener('click', () => {
+            triggerHapticFeedback('medium');
+            fileInfoElement.textContent = "Файл не выбран";
+            addFileButton.classList.remove('disabled');
+            addFileButton.disabled = false;
+            selectedFile = null;
+            // Очищаем параметр 'file' из URL без перезагрузки (если возможно)
+            if (history.pushState) {
+                const newUrl = window.location.pathname + window.location.search.replace(/([?&])file=[^&]*&?/, '$1').replace(/[?&]$/, '');
+                history.pushState({path:newUrl}, '', newUrl);
+            }
+            console.log("File selection cleared.");
+            updateConvertButtonState();
+        });
+
+        // 7. Обработчик кнопки "Добавить файл"
+        addFileButton.addEventListener('click', () => {
+            if (!addFileButton.classList.contains('disabled')) {
+                triggerHapticFeedback();
+                console.log("Sending 'upload_pack' request to bot...");
+                tg.sendData("upload_pack");
+                // Закрывать не нужно, бот пришлет сообщение с просьбой отправить файл
+            }
+        });
+
+        // 8. Логика выбора магазина
+        document.querySelectorAll('.button[data-shop]').forEach(button => {
+            button.addEventListener('click', () => {
+                 triggerHapticFeedback();
+                 document.querySelectorAll('.button[data-shop]').forEach(btn => btn.classList.remove('selected'));
+                 button.classList.add('selected');
+                 selectedShop = button.getAttribute('data-shop');
+                 console.log("Shop selected:", selectedShop);
+                 updateConvertButtonState();
+                 updateTheme(); // Перерисовываем тему, чтобы обновить стили кнопок
+            });
+        });
+
+        // 9. Логика выбора формата
+        document.querySelectorAll('.format-options .format-button[data-format]').forEach(button => {
+            button.addEventListener('click', () => {
+                 triggerHapticFeedback();
+                 document.querySelectorAll('.format-options .format-button[data-format]').forEach(btn => btn.classList.remove('selected'));
+                 button.classList.add('selected');
+                 selectedFormat = button.getAttribute('data-format');
+                 console.log("Format selected:", selectedFormat);
+                 updateConvertButtonState();
+                 updateTheme(); // Перерисовываем тему
+            });
+        });
+
+        // 10. Обработчик кнопки "Конвертировать" - ОТПРАВКА JSON
+        convertButton.addEventListener('click', () => {
+            if (!convertButton.classList.contains('disabled')) {
+                triggerHapticFeedback('heavy');
+                // Собираем данные
+                const data = {
+                    action: "convert",
+                    file: selectedFile,
+                    shop: selectedShop,
+                    format: selectedFormat
+                };
+
+                // Преобразуем в JSON строку
+                const dataString = JSON.stringify(data);
+                console.log('Sending data (as JSON) to bot:', dataString);
+
+                try {
+                    // Отправляем данные боту
+                    tg.sendData(dataString);
+
+                    // Даем небольшую задержку и закрываем Web App
+                    // Это нужно, чтобы пользователь увидел нажатие кнопки
+                    convertButton.textContent = "Отправлено!"; // Обратная связь
+                    setTimeout(() => {
+                        tg.close();
+                    }, 300); // 300 мс задержка
+
+                } catch (error) {
+                    console.error("Error sending data via tg.sendData:", error);
+                    // Показываем ошибку внутри WebApp
+                    alert("Не удалось отправить данные боту. Ошибка: " + error.message + ". Попробуйте снова.");
+                    convertButton.textContent = "Ошибка отправки"; // Обратная связь об ошибке
+                     setTimeout(() => { // Возвращаем текст кнопки через время
+                        convertButton.textContent = "Конвертировать";
+                    }, 2000);
+                }
+            } else {
+                console.log("Convert button clicked but is disabled.");
+                // Можно добавить легкую анимацию дрожания для неактивной кнопки
+                convertButton.style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => convertButton.style.animation = '', 500);
+            }
+        });
+
+        // Добавим стиль для анимации дрожания
+        const styleSheet = document.createElement("style");
+        styleSheet.type = "text/css";
+        styleSheet.innerText = `
+            @keyframes shake {
+              0%, 100% { transform: translateX(0); }
+              25% { transform: translateX(-3px); }
+              50% { transform: translateX(3px); }
+              75% { transform: translateX(-3px); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+
+        // 11. Разворачивание приложения на полный экран
+        tg.expand();
+        console.log("WebApp expanded.");
+
+        // 12. Сообщаем о полной загрузке
+        console.log("WebApp UI fully initialized.");
+
+    </script>
+</body>
+
+</html>
